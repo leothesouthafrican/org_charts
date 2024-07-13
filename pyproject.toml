@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "org-charts"
+version = "0.1.0"
+description = "This repository contains Python code for generating organizational charts and fund structure charts programmatically. It provides a flexible way to visualize hierarchical relationships and attributes of entities within corporate or financial structures."
+authors = ["Leonardo de Figueiredo <38779415+leothesouthafrican@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+networkx = "^3.3"
+matplotlib = "^3.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
