@@ -1,0 +1,145 @@
+{
+    "name": "Maquarie",
+    "type": "FundManager",
+    "attributes": {
+      "Vat Registered": "True",
+      "Capital": "30000000",
+      "Location": "Luxembourg"
+    },
+    "children": [
+      {
+        "name": "MEIF6 Luxco1",
+        "type": "MasterFund",
+        "attributes": {
+          "Location": "England",
+          "Capital": "1000000",
+          "Employees": "5"
+        },
+        "children": [
+          {
+            "name": "Sub1",
+            "type": "SubFund",
+            "attributes": {
+              "VAT Registered": "True"
+            },
+            "children": [
+              {
+                "name": "Veh1",
+                "type": "InvestmentVehicle",
+                "attributes": {
+                  "Employees": "5",
+                  "Capital": "10000"
+                },
+                "children": [
+                  {
+                    "name": "John",
+                    "type": "Investor",
+                    "attributes": {
+                      "Capital": "23000"
+                    },
+                    "children": []
+                  },
+                  {
+                    "name": "Tammy",
+                    "type": "Investor",
+                    "attributes": {
+                      "Capital": "26000"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "Merl2",
+                "type": "InvestmentVehicle",
+                "attributes": {
+                  "Capital": "250000"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "Sub2",
+            "type": "SubFund",
+            "attributes": {
+              "Location": "UK",
+              "Capital": "10000",
+              "Employees": "12"
+            },
+            "children": [
+              {
+                "name": "LuxSarl5",
+                "type": "InvestmentVehicle",
+                "attributes": {
+                  "Capital": "30400",
+                  "Employees": "4"
+                },
+                "children": [
+                  {
+                    "name": "Luca",
+                    "type": "Investor",
+                    "attributes": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MEIF6 Italian Motorway",
+        "type": "MasterFund",
+        "attributes": {
+          "Employees": "10",
+          "Capital": "10000"
+        },
+        "children": [
+          {
+            "name": "SubFund5",
+            "type": "SubFund",
+            "attributes": {
+              "Location": "USA"
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "MEIF6 Brugge",
+        "type": "MasterFund",
+        "attributes": {
+          "VAT Registered": "False",
+          "Employees": "10"
+        },
+        "children": [
+          {
+            "name": "SubF2",
+            "type": "SubFund",
+            "attributes": {
+              "Owner": "Doe"
+            },
+            "children": [
+              {
+                "name": "Veh6",
+                "type": "InvestmentVehicle",
+                "attributes": {},
+                "children": [
+                  {
+                    "name": "Mary Jane",
+                    "type": "Investor",
+                    "attributes": {
+                      "Capital": "50000"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
