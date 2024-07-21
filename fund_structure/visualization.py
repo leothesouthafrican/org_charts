@@ -1,5 +1,8 @@
+# visualization.py
+
 import networkx as nx
 import matplotlib.pyplot as plt
+from networkx.drawing.nx_agraph import graphviz_layout
 
 def add_edges(G, parent):
     for child in parent.children:
@@ -38,7 +41,9 @@ def visualize_structure(fund_manager):
     shapes = {}
     add_nodes(G, fund_manager, labels, shapes)
     add_edges(G, fund_manager)
-    pos = nx.spring_layout(G)
+    
+    # Use graphviz_layout for hierarchical layout
+    pos = graphviz_layout(G, prog="dot")
     
     # Draw nodes with shapes
     node_shapes = set(shapes.values())

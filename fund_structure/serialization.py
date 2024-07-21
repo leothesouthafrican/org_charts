@@ -1,3 +1,5 @@
+#serialisation.py
+
 import json
 from .entities import FundManager, MasterFund, SubFund, InvestmentVehicle, Investor
 

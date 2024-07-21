@@ -1,3 +1,5 @@
+#main.py
+
 from fund_structure.entities import FundManager
 from fund_structure.relationships import add_relationships, get_entity_details
 from fund_structure.visualization import visualize_structure
