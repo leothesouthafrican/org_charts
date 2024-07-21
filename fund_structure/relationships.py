@@ -1,4 +1,4 @@
-#relationships.py
+# relationships.py
 
 import inquirer
 from .entities import FundManager, MasterFund, SubFund, InvestmentVehicle, Investor
@@ -32,7 +32,7 @@ def get_entity_details(entity_type):
     
     return name, attributes
 
-def add_relationships(parent, child_type):
+def add_relationships(parent, child_type, entities):
     children = []
     while True:
         add_child = inquirer.prompt([
@@ -51,4 +51,23 @@ def add_relationships(parent, child_type):
             child = Investor(name, **attributes)
         parent.add_child(child)
         children.append(child)
+        entities[name] = child  # Store entity by name for cross-referencing
     return children
+
+def link_entities(entities):
+    while True:
+        link = inquirer.prompt([
+            inquirer.Confirm('link', message="Do you want to link two entities?")
+        ])['link']
+        if not link:
+            break
+        entity1_name = inquirer.prompt([
+            inquirer.List('entity1', message="Select the first entity to link", choices=list(entities.keys()))
+        ])['entity1']
+        entity2_name = inquirer.prompt([
+            inquirer.List('entity2', message="Select the second entity to link", choices=list(entities.keys()))
+        ])['entity2']
+        if entity1_name != entity2_name:
+            entities[entity1_name].add_relationship(entities[entity2_name])
+        else:
+            print("An entity cannot be linked to itself. Please select different entities.")

@@ -1,0 +1,150 @@
+{
+    "name": "John",
+    "type": "FundManager",
+    "attributes": {
+        "Experience": "2 years",
+        "Management Fee": "10 000"
+    },
+    "children": [
+        {
+            "name": "Macquarie",
+            "type": "MasterFund",
+            "attributes": {
+                "Investment Strategy": "LBO",
+                "Duration": "5 years"
+            },
+            "children": [
+                {
+                    "name": "MEIF1",
+                    "type": "SubFund",
+                    "attributes": {
+                        "Allocation Percentage": "20%",
+                        "Asset Class": "Real Estate"
+                    },
+                    "children": [
+                        {
+                            "name": "Inv Vehicle 1",
+                            "type": "InvestmentVehicle",
+                            "attributes": {
+                                "Risk Level": "5",
+                                "Asset Class": "Stocks"
+                            },
+                            "children": [
+                                {
+                                    "name": "James McGill",
+                                    "type": "Investor",
+                                    "attributes": {
+                                        "Investment Amount": "10000000",
+                                        "Investment Date": "01/01/2014"
+                                    },
+                                    "children": [],
+                                    "relationships": []
+                                },
+                                {
+                                    "name": "Jesse Green",
+                                    "type": "Investor",
+                                    "attributes": {
+                                        "Investment Amount": "2 000 000"
+                                    },
+                                    "children": [],
+                                    "relationships": []
+                                }
+                            ],
+                            "relationships": [
+                                "Inv Vehicle 2"
+                            ]
+                        },
+                        {
+                            "name": "Sugar Town 1",
+                            "type": "InvestmentVehicle",
+                            "attributes": {
+                                "Asset Class": "Retail",
+                                "Risk Level": "1"
+                            },
+                            "children": [
+                                {
+                                    "name": "Jack Lehane",
+                                    "type": "Investor",
+                                    "attributes": {
+                                        "Investment Amount": "25000"
+                                    },
+                                    "children": [],
+                                    "relationships": []
+                                }
+                            ],
+                            "relationships": []
+                        }
+                    ],
+                    "relationships": []
+                }
+            ],
+            "relationships": [
+                "Inv Vehicle 2"
+            ]
+        },
+        {
+            "name": "Encore",
+            "type": "MasterFund",
+            "attributes": {
+                "Investment Strategy": "CoCo",
+                "Duration": "2 years"
+            },
+            "children": [
+                {
+                    "name": "Submariner 1",
+                    "type": "SubFund",
+                    "attributes": {
+                        "Asset Class": "Watches",
+                        "Allocation Percentage": "80%"
+                    },
+                    "children": [
+                        {
+                            "name": "Inv Vehicle 2",
+                            "type": "InvestmentVehicle",
+                            "attributes": {
+                                "Asset Class": "PM",
+                                "Risk Level": "4"
+                            },
+                            "children": [
+                                {
+                                    "name": "Saul Goodman",
+                                    "type": "Investor",
+                                    "attributes": {
+                                        "Investment Date": "01/02/2014"
+                                    },
+                                    "children": [],
+                                    "relationships": []
+                                }
+                            ],
+                            "relationships": []
+                        }
+                    ],
+                    "relationships": []
+                },
+                {
+                    "name": "Oyster",
+                    "type": "SubFund",
+                    "attributes": {
+                        "Allocation Percentage": "20%",
+                        "Asset Class": "Wine"
+                    },
+                    "children": [],
+                    "relationships": []
+                },
+                {
+                    "name": "Sub Fund 2",
+                    "type": "SubFund",
+                    "attributes": {
+                        "Asset Class": "Acconts"
+                    },
+                    "children": [],
+                    "relationships": []
+                }
+            ],
+            "relationships": [
+                "MEIF1"
+            ]
+        }
+    ],
+    "relationships": []
+}

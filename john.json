@@ -1,0 +1,9 @@
+{
+    "name": "John",
+    "type": "FundManager",
+    "attributes": {
+        "Experience": "2 years",
+        "Management Fee": "10000"
+    },
+    "children": []
+}

@@ -1,11 +1,13 @@
 # main.py
 
 from fund_structure.entities import FundManager
-from fund_structure.relationships import add_relationships, get_entity_details
+from fund_structure.relationships import add_relationships, get_entity_details, link_entities
 from fund_structure.visualization import FundStructureVisualizer
 from fund_structure.serialization import save_to_json, load_from_json
 
 def main():
+    entities = {}
+
     # Option to load from an existing JSON file
     choice = input("Do you want to load the fund structure from a JSON file? (yes/no): ").strip().lower()
     if choice == 'yes':
@@ -17,8 +19,8 @@ def main():
         # Allow user to specify node size, font size, and figure size
         node_size = int(input("Enter the desired node size (default 3000): ").strip() or 3000)
         font_size = int(input("Enter the desired font size (default 10): ").strip() or 10)
-        figure_width = float(input("Enter the desired figure width (default 10): ").strip() or 10)
-        figure_height = float(input("Enter the desired figure height (default 7): ").strip() or 7)
+        figure_width = float(input("Enter the desired figure width (default 15): ").strip() or 15)
+        figure_height = float(input("Enter the desired figure height (default 10): ").strip() or 10)
         figure_size = (figure_width, figure_height)
 
         # Generate and display the chart
@@ -31,20 +33,24 @@ def main():
     if not name:
         name = input("Enter the name of the Fund Manager: ").strip()
     fund_manager = FundManager(name, **attributes)
-    
+    entities[name] = fund_manager
+
     # Step 2: Add Master Funds under Fund Manager
-    fund_manager.children = add_relationships(fund_manager, "Master Fund")
+    fund_manager.children = add_relationships(fund_manager, "Master Fund", entities)
     
     for master_fund in fund_manager.children:
         # Step 3: Add Sub Funds under each Master Fund
-        master_fund.children = add_relationships(master_fund, "Sub Fund")
+        master_fund.children = add_relationships(master_fund, "Sub Fund", entities)
         for sub_fund in master_fund.children:
             # Step 4: Add Investment Vehicles under each Sub Fund
-            sub_fund.children = add_relationships(sub_fund, "Investment Vehicle")
+            sub_fund.children = add_relationships(sub_fund, "Investment Vehicle", entities)
             for vehicle in sub_fund.children:
                 # Step 5: Add Investors under each Investment Vehicle
-                vehicle.children = add_relationships(vehicle, "Investor")
+                vehicle.children = add_relationships(vehicle, "Investor", entities)
     
+    # Allow linking of entities
+    link_entities(entities)
+
     # Save to JSON file
     filename = input("Enter the filename to save the structure: ").strip()
     if not filename.endswith(".json"):
@@ -58,8 +64,8 @@ def main():
     # Allow user to specify node size, font size, and figure size
     node_size = int(input("Enter the desired node size (default 3000): ").strip() or 3000)
     font_size = int(input("Enter the desired font size (default 10): ").strip() or 10)
-    figure_width = float(input("Enter the desired figure width (default 10): ").strip() or 10)
-    figure_height = float(input("Enter the desired figure height (default 7): ").strip() or 7)
+    figure_width = float(input("Enter the desired figure width (default 15): ").strip() or 15)
+    figure_height = float(input("Enter the desired figure height (default 10): ").strip() or 10)
     figure_size = (figure_width, figure_height)
 
     # Generate and display the chart

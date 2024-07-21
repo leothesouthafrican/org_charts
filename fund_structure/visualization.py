@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from networkx.drawing.nx_agraph import graphviz_layout
 
 class FundStructureVisualizer:
-    def __init__(self, fund_manager, node_size=3000, font_size=10, figure_size=(10, 7)):
+    def __init__(self, fund_manager, node_size=3000, font_size=10, figure_size=(15, 10)):
         self.fund_manager = fund_manager
         self.G = nx.DiGraph()
         self.labels = {}
@@ -23,6 +23,8 @@ class FundStructureVisualizer:
         for child in parent.children:
             self.G.add_edge(parent.name, child.name)
             self._add_edges(child)
+        for related_entity in parent.relationships:
+            self.G.add_edge(parent.name, related_entity.name)
 
     def _create_labels(self, entity):
         label = entity.name
@@ -80,7 +82,7 @@ class FundStructureVisualizer:
         plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='upper left')
 
     def visualize(self):
-        pos = graphviz_layout(self.G, prog="dot")
+        pos = graphviz_layout(self.G, prog="dot")  # Use the 'dot' layout from Graphviz
         
         plt.figure(figsize=self.figure_size)  # Adjust the figure size to be user-defined or default
         
