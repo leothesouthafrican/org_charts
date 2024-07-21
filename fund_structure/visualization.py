@@ -4,66 +4,90 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from networkx.drawing.nx_agraph import graphviz_layout
 
-def add_edges(G, parent):
-    for child in parent.children:
-        G.add_edge(parent.name, child.name)
-        add_edges(G, child)
+class FundStructureVisualizer:
+    def __init__(self, fund_manager, node_size=3000, font_size=10, figure_size=(10, 7)):
+        self.fund_manager = fund_manager
+        self.G = nx.DiGraph()
+        self.labels = {}
+        self.shapes = {}
+        self.node_size = node_size
+        self.font_size = font_size
+        self.figure_size = figure_size
+        self._initialize_graph()
 
-def create_labels(entity):
-    label = entity.name
-    for key, value in entity.attributes.items():
-        label += f"\n{key}: {value}"
-    return label
+    def _initialize_graph(self):
+        self._add_nodes(self.fund_manager)
+        self._add_edges(self.fund_manager)
 
-def add_nodes(G, parent, labels, shapes):
-    labels[parent.name] = create_labels(parent)
-    entity_type = type(parent).__name__
-    
-    if entity_type == 'FundManager':
-        shapes[parent.name] = 's'  # square
-    elif entity_type == 'MasterFund':
-        shapes[parent.name] = 'D'  # diamond
-    elif entity_type == 'SubFund':
-        shapes[parent.name] = 'o'  # circle
-    elif entity_type == 'InvestmentVehicle':
-        shapes[parent.name] = 'h'  # hexagon
-    elif entity_type == 'Investor':
-        shapes[parent.name] = '^'  # triangle
-    
-    for child in parent.children:
-        G.add_node(child.name)
-        labels[child.name] = create_labels(child)
-        add_nodes(G, child, labels, shapes)
+    def _add_edges(self, parent):
+        for child in parent.children:
+            self.G.add_edge(parent.name, child.name)
+            self._add_edges(child)
 
-def visualize_structure(fund_manager):
-    G = nx.DiGraph()
-    labels = {}
-    shapes = {}
-    add_nodes(G, fund_manager, labels, shapes)
-    add_edges(G, fund_manager)
-    
-    # Use graphviz_layout for hierarchical layout
-    pos = graphviz_layout(G, prog="dot")
-    
-    # Draw nodes with shapes
-    node_shapes = set(shapes.values())
-    for shape in node_shapes:
-        nx.draw_networkx_nodes(G, pos, nodelist=[s for s in shapes if shapes[s] == shape], node_shape=shape, node_size=3000, node_color="skyblue")
-    
-    nx.draw_networkx_edges(G, pos)
-    nx.draw_networkx_labels(G, pos, labels=labels, font_size=8, font_weight="bold")
-    
-    # Create a legend
-    legend_labels = {
-        's': 'Fund Manager',
-        'D': 'Master Fund',
-        'o': 'Sub Fund',
-        'h': 'Investment Vehicle',
-        '^': 'Investor'
-    }
-    for shape, label in legend_labels.items():
-        plt.scatter([], [], c="skyblue", marker=shape, label=label)
-    plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='upper left')
+    def _create_labels(self, entity):
+        label = entity.name
+        for key, value in entity.attributes.items():
+            label += f"\n{key}: {value}"
+        return label
 
-    plt.title("Fund Structure Chart")
-    plt.show()
+    def _add_nodes(self, parent):
+        self.labels[parent.name] = self._create_labels(parent)
+        entity_type = type(parent).__name__
+
+        shape_map = {
+            'FundManager': 's',
+            'MasterFund': 'D',
+            'SubFund': 'o',
+            'InvestmentVehicle': 'h',
+            'Investor': '^'
+        }
+
+        self.shapes[parent.name] = shape_map.get(entity_type, 'o')  # default to circle if not found
+
+        for child in parent.children:
+            self.G.add_node(child.name)
+            self.labels[child.name] = self._create_labels(child)
+            self._add_nodes(child)
+
+    def _draw_nodes(self, pos):
+        node_shapes = set(self.shapes.values())
+        for shape in node_shapes:
+            nx.draw_networkx_nodes(
+                self.G, pos, 
+                nodelist=[s for s in self.shapes if self.shapes[s] == shape], 
+                node_shape=shape, 
+                node_size=self.node_size, 
+                node_color="skyblue"
+            )
+
+    def _draw_labels(self, pos):
+        for node, (x, y) in pos.items():
+            plt.text(x, y, self.labels[node], 
+                     fontsize=self.font_size, 
+                     horizontalalignment='center', 
+                     verticalalignment='center')
+
+    def _create_legend(self):
+        legend_labels = {
+            's': 'Fund Manager',
+            'D': 'Master Fund',
+            'o': 'Sub Fund',
+            'h': 'Investment Vehicle',
+            '^': 'Investor'
+        }
+        for shape, label in legend_labels.items():
+            plt.scatter([], [], c="skyblue", marker=shape, label=label)
+        plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='upper left')
+
+    def visualize(self):
+        pos = graphviz_layout(self.G, prog="dot")
+        
+        plt.figure(figsize=self.figure_size)  # Adjust the figure size to be user-defined or default
+        
+        self._draw_nodes(pos)
+        nx.draw_networkx_edges(self.G, pos, arrows=True)
+        self._draw_labels(pos)
+        
+        self._create_legend()
+        plt.title("Fund Structure Chart")
+        plt.show()

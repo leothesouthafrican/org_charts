@@ -1,8 +1,8 @@
-#main.py
+# main.py
 
 from fund_structure.entities import FundManager
 from fund_structure.relationships import add_relationships, get_entity_details
-from fund_structure.visualization import visualize_structure
+from fund_structure.visualization import FundStructureVisualizer
 from fund_structure.serialization import save_to_json, load_from_json
 
 def main():
@@ -14,8 +14,16 @@ def main():
             filename += ".json"
         fund_manager = load_from_json(filename)
         
+        # Allow user to specify node size, font size, and figure size
+        node_size = int(input("Enter the desired node size (default 3000): ").strip() or 3000)
+        font_size = int(input("Enter the desired font size (default 10): ").strip() or 10)
+        figure_width = float(input("Enter the desired figure width (default 10): ").strip() or 10)
+        figure_height = float(input("Enter the desired figure height (default 7): ").strip() or 7)
+        figure_size = (figure_width, figure_height)
+
         # Generate and display the chart
-        visualize_structure(fund_manager)
+        visualizer = FundStructureVisualizer(fund_manager, node_size=node_size, font_size=font_size, figure_size=figure_size)
+        visualizer.visualize()
         return  # Terminate the program after generating the plot
 
     # Step 1: Get details for the Fund Manager
@@ -47,8 +55,16 @@ def main():
     print("\nStructured Data:")
     print(fund_manager)
     
+    # Allow user to specify node size, font size, and figure size
+    node_size = int(input("Enter the desired node size (default 3000): ").strip() or 3000)
+    font_size = int(input("Enter the desired font size (default 10): ").strip() or 10)
+    figure_width = float(input("Enter the desired figure width (default 10): ").strip() or 10)
+    figure_height = float(input("Enter the desired figure height (default 7): ").strip() or 7)
+    figure_size = (figure_width, figure_height)
+
     # Generate and display the chart
-    visualize_structure(fund_manager)
+    visualizer = FundStructureVisualizer(fund_manager, node_size=node_size, font_size=font_size, figure_size=figure_size)
+    visualizer.visualize()
 
 if __name__ == "__main__":
     main()
